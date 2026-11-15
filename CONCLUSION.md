@@ -21,7 +21,7 @@ Give the numbers before -> after for that layer (correct / wrong / no answer, ou
 whether it changed what the agent *can do* or only what it *admits*. If no layer changed the
 number of correct answers, say so and explain what the layers did change instead.
 
-(write here)
+The layer that changed results the most was layer 1. Before layer 1, my bare agent got 16 correct, 6 wrong, and 4 no answer. After layer 1, it became 18 correct, 6 wrong, and 4 no answer. It changed what the agent can do because when the tool gave an error like bad region name, layer 1 sent this error back to the model, so the model could fix its mistake and try again. Layer 2 did not change numbers at all (it stayed 18 correct), and layer 3 only changed some wrong answers to no answer because of grounding, but layer 1 actually helped to fix things and get more correct answers.
 
 ## 2. One failure the full harness did not fix
 
@@ -30,7 +30,7 @@ Pick one question that the full harness (layer 3) still gets wrong or refuses. G
 the model do instead? Name one thing you would add to the harness, and what it would cost
 (extra model calls, tokens, time, or a new way to fail).
 
-(write here)
+One question that the full harness still gets wrong is q08. When I look at its trace, the model tried to find the lowest monthly wage, but it picked a wrong region from the list because it got confused by the sorting order of the tool output. To fix this, I would add a small check to the harness to verify if the model's chosen region actually matches the extreme value in the tool data. The cost of this would be extra model calls, more tokens, and it could take more time to run every step.
 
 ## 3. Workflow or agent for the monthly ranking?
 
@@ -39,7 +39,7 @@ indicator in one year". Would you ship the fixed workflow or the agent? Use the 
 number of model calls, the tokens and the time you measured in Part 1. Then say in one sentence
 what kind of question would make you choose the other one.
 
-(write here)
+For monthly ranking, I would ship the fixed workflow. From Part 1, the workflow was much faster and cheaper. It used only 3,852 tokens and 15 model calls, while the bare agent used 19,835 tokens and 26 model calls, and the workflow had better accuracy on fixed questions (13/15). However, I would choose the agent if the monthly task changes its structure and becomes an open question where we don't know the parameters in advance.
 
 ---
 
